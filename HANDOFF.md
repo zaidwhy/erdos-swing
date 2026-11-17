@@ -42,7 +42,8 @@ integers: `python -c "from math import comb,gcd;print(gcd(comb(n,i),comb(n,j)))"
    coupled problem directly (shared odd q, three disjoint sets of r) at lcm above 2e6 in w-terms.
 3. Lean: not installed (disk). `lean/Erdos699Reduction.lean` holds the statement and proof route with
    `sorry` in every proof. It has NEVER been compiled; treat every Mathlib name in it as unconfirmed.
-   When about 7 GB is free: install elan, add Mathlib, compile, then fill the four proofs.
+   Informal proofs of every lemma, written to be formalised step by step: `notes/EP699-PROOFS.md`.
+   When about 7 GB is free: install elan, add Mathlib, compile, then fill the proofs.
 
 ## Peer note
 
