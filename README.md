@@ -14,7 +14,7 @@ and nothing is called a result until a second, independently written path agrees
 |---|---|---|
 | all 628 not-yet-settled problems | read every statement and the discussion threads of the candidates | see `notes/TRIAGE.md`; the cheap searches have been run by others |
 | [#699](https://www.erdosproblems.com/699) | exact search for a counterexample, all n below 1e11 | none found in the part completed so far; see `HANDOFF.md` for the live count |
-| #699, case i = 3 | direct enumeration with the prime 3 ignored, n up to 3,000,000 | no j below n/2 survives even the primes >= 5 |
+| #699, case i = 3 | structured enumeration of every n <= 1e18 that can fail (67,644,548 of them) | no j with 3 < j < n/2 survives even the primes >= 5; proof of the reduction in `notes/EP699-I3.md` |
 | [#273](https://www.erdosproblems.com/273) | 14 moduli p - 1 that cover every even integer, checked exactly | half a covering; the odd half is the open part |
 
 ## Problem 699
@@ -42,6 +42,11 @@ Controls, all run:
 - Two enumeration routines that share no code (digit descent on one prime, CRT on several) give the
   same output on [2, 1e7) strict and [2, 1e8) as stated.
 
+The case i = 3 has a second, independent program (`search/ep699_i3`): a counterexample forces the
+6-smooth part s of n to satisfy b * c <= 0.0963 s^3, which leaves so few n that 1e18 takes 28 minutes.
+Its control is a brute-force list of the pairs meeting the divisibility conditions, identical for
+n <= 3,000,000 (160 pairs).
+
 Reproduce:
 
 ```
@@ -67,8 +72,10 @@ the usable moduli dividing an lcm of 8.5e21 sum to only 1.419, so the odd half w
 ## What this is not
 
 - Not a proof or disproof of any Erdős problem.
-- The #699 scan is evidence over a finite range. It says nothing about larger n, and a recent proof
-  claim on the forum (unverified by me) reduces the problem to i = 3 plus a finite set.
+- The #699 scans are evidence over finite ranges (all i to 1e11 when the scan ends, i = 3 to 1e18).
+  They say nothing about larger n. A recent proof claim on the forum (unverified by me) reduces the
+  problem to i = 3 plus a finite set, which is why i = 3 got its own search.
+- The i = 3 result excludes j = n/2. That case rests on the n = 2j proof the site lists as accepted.
 - The #273 half-covering does not show a full covering exists or does not exist.
 - No Lean formalisation was written. There was no new theorem to formalise.
 
