@@ -28,12 +28,16 @@ integers: `python -c "from math import comb,gcd;print(gcd(comb(n,i),comb(n,j)))"
 
 ## Next steps, in order of value
 
-1. **#699, i = 3: done to 1e18** (`notes/EP699-I3.md`, zero survivors). Possible extension: the same
-   reduction for i = 4, where the smooth part only has to be about n^(1/3), so 1e12 is realistic.
-2. **#273 odd half.** Needs a covering of the odd integers with moduli p - 1 other than 4 and other
-   than whatever the even half uses. The even half in `search/ep273/half_cover.py` is too expensive
-   (0.852); a cheaper even half is the first thing to look for.
-3. Lean: only worth installing once there is a statement to check. Mathlib needs about 6 GB.
+1. **#699 structured search: done** for i <= 4 to 1e18, i <= 6 to 1e15, i <= 10 to 1e12, confirmed by a
+   second program written from the spec (`search/ep699_verify`). Still running when this was written:
+   `ep699_i3 scan 1e15 4 2,3,5,7` then `scan 1e17 4 2,3,5`, writing `results/ep699-smooth2357-1e15.json`
+   and `results/ep699-smooth235-1e17.json`. An empty file means that run has not finished. When they
+   land, add the rows to the table in `notes/EP699-I3.md`; any survivor with n above 1e11 would need an
+   exact check like the one described there.
+2. **#273.** `notes/EP273.md` has the reduction to three coupled coverings. Next experiment: search the
+   coupled problem directly (shared odd q, three disjoint sets of r) at lcm above 2e6 in w-terms.
+3. Lean: not installed (disk). Statement worth formalising first: the reduction lemma in
+   `notes/EP699-I3.md` (a | j, b | t(s-t), c | t(s-t)(s-2t)); it needs Kummer's theorem, which Mathlib has.
 
 ## Peer note
 

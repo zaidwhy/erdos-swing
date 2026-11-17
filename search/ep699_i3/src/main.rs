@@ -174,9 +174,9 @@ fn dominated(mut j: u64, mut n: u64, p: u64) -> bool {
     true
 }
 
-fn smooth_part(mut m: u64) -> u64 {
+fn smooth_part(mut m: u64, primes: &[u64]) -> u64 {
     let mut s = 1;
-    for p in [2u64, 3] {
+    for &p in primes {
         while m % p == 0 {
             m /= p;
             s *= p;
@@ -248,15 +248,15 @@ struct Tally {
     counterexamples: Vec<(u64, u64)>,
 }
 
-fn examine(n: u64, tally: &mut Tally, scratch: &mut [Vec<(u64, u64)>; 3]) {
+fn examine(n: u64, primes: &[u64], tally: &mut Tally, scratch: &mut [Vec<(u64, u64)>; 3]) {
     tally.tested += 1;
-    let s = smooth_part(n);
+    let s = smooth_part(n, primes);
     if s < 3 {
         return;
     }
     let a = n / s;
-    let b = (n - 1) / smooth_part(n - 1);
-    let c = (n - 2) / smooth_part(n - 2);
+    let b = (n - 1) / smooth_part(n - 1, primes);
+    let c = (n - 2) / smooth_part(n - 2, primes);
     if (b as f64) * (c as f64) > SIZE_BOUND * (s as f64).powi(3) {
         return;
     }
@@ -273,6 +273,8 @@ fn examine(n: u64, tally: &mut Tally, scratch: &mut [Vec<(u64, u64)>; 3]) {
         return;
     }
     prime_powers(a, a_powers);
+    // The prime 3 only enters the exact i = 3 statement, which is the {2, 3} run.
+    let exact_i3 = primes == [2, 3];
     let three_divides = (valuation3(n) + valuation3(n - 1) + valuation3(n - 2)) >= 2;
     for t in solutions {
         tally.necessary.push((n, t));
@@ -287,7 +289,7 @@ fn examine(n: u64, tally: &mut Tally, scratch: &mut [Vec<(u64, u64)>; 3]) {
             .all(|&(p, _)| dominated(j, n, p));
         if large_ok {
             tally.survive_large_primes.push((n, j));
-            if !three_divides || dominated(j, n, 3) {
+            if exact_i3 && (!three_divides || dominated(j, n, 3)) {
                 tally.counterexamples.push((n, j));
             }
         }
@@ -303,81 +305,127 @@ fn valuation3(mut m: u64) -> u32 {
     v
 }
 
-/// One arithmetic progression of candidates: n = residue (mod modulus), n <= top.
-struct Progression {
+/// Where the powers of the smooth primes sit on n, n-1, n-2: n = residue (mod modulus), and
+/// `parts` are the smooth parts of n, n-1, n-2 that this placement implies.
+struct Placement {
     residue: u128,
     modulus: u128,
-    top: u64,
+    parts: [f64; 3],
 }
 
-/// All ways the powers of 2 and 3 can sit on n, n-1, n-2, each with its size bound on n.
-fn progressions(limit: u64) -> Vec<Progression> {
+/// n = residue (mod modulus) and n = offset (mod q), with q coprime to modulus.
+fn combine(residue: u128, modulus: u128, offset: u128, q: u128) -> u128 {
+    let inv = {
+        let (mut r0, mut r1) = (q as i128, (modulus % q) as i128);
+        let (mut t0, mut t1) = (0i128, 1i128);
+        while r1 != 0 {
+            let k = r0 / r1;
+            (r0, r1) = (r1, r0 - k * r1);
+            (t0, t1) = (t1, t0 - k * t1);
+        }
+        t0.rem_euclid(q as i128) as u128
+    };
+    let diff = (offset + q - residue % q) % q;
+    residue + modulus * (diff * inv % q)
+}
+
+/// Every placement of the powers of 2 and 3.  Exactly one of n, n-1, n-2 is divisible by 3;
+/// for 2 either n is odd, or one of n, n-2 carries 2^e (e >= 2) and the other exactly 2.
+fn base_placements(limit: u64) -> Vec<Placement> {
     let mut out = Vec::new();
-    let mut two_cases = Vec::new(); // (offset of the number carrying 2^e, e)
-    let mut e = 1u32;
-    while (1u128 << e) <= 2 * limit as u128 {
-        two_cases.push((1u64, e));
-        if e >= 2 {
-            two_cases.push((0, e));
-            two_cases.push((2, e));
-        }
-        e += 1;
-    }
-    let mut three_cases = Vec::new();
-    let mut e = 1u32;
-    while 3u128.pow(e) <= 2 * limit as u128 {
-        for offset in [0u64, 1, 2] {
-            three_cases.push((offset, e));
-        }
-        e += 1;
-    }
-    for &(two_at, two_e) in &two_cases {
-        for &(three_at, three_e) in &three_cases {
-            let p2 = 1u128 << two_e;
-            let p3 = 3u128.pow(three_e);
-            // Smooth parts of n, n-1, n-2 implied by this placement.
-            let mut parts = [1f64; 3];
-            parts[two_at as usize] *= p2 as f64;
-            if two_at == 0 {
-                parts[2] *= 2.0;
-            }
-            if two_at == 2 {
-                parts[0] *= 2.0;
-            }
-            parts[three_at as usize] *= p3 as f64;
-            let top = (SIZE_BOUND * parts[0].powi(3) * parts[1] * parts[2]).sqrt() * (1.0 + 1e-9) + 4.0;
-            let top = if top >= limit as f64 { limit } else { top as u64 };
-            // n = two_at (mod 2^e) and n = three_at (mod 3^e).
-            let inv = {
-                let (mut r0, mut r1) = (p3 as i128, (p2 % p3) as i128);
-                let (mut t0, mut t1) = (0i128, 1i128);
-                while r1 != 0 {
-                    let q = r0 / r1;
-                    (r0, r1) = (r1, r0 - q * r1);
-                    (t0, t1) = (t1, t0 - q * t1);
+    let mut e2 = 1u32;
+    while (1u128 << e2) <= 2 * limit as u128 {
+        let offsets: &[usize] = if e2 >= 2 { &[0, 1, 2] } else { &[1] };
+        for &two_at in offsets {
+            let p2 = 1u128 << e2;
+            let mut e3 = 1u32;
+            while 3u128.pow(e3) <= 2 * limit as u128 {
+                let p3 = 3u128.pow(e3);
+                for three_at in 0..3usize {
+                    let mut parts = [1f64; 3];
+                    parts[two_at] *= p2 as f64;
+                    if two_at == 0 {
+                        parts[2] *= 2.0;
+                    }
+                    if two_at == 2 {
+                        parts[0] *= 2.0;
+                    }
+                    parts[three_at] *= p3 as f64;
+                    let residue = combine(two_at as u128, p2, three_at as u128, p3);
+                    out.push(Placement { residue, modulus: p2 * p3, parts });
                 }
-                t0.rem_euclid(p3 as i128) as u128
-            };
-            let diff = (three_at as u128 + p3 - (two_at as u128 % p3)) % p3;
-            let residue = two_at as u128 + p2 * (diff * inv % p3);
-            if residue <= top as u128 {
-                out.push(Progression { residue, modulus: p2 * p3, top });
+                e3 += 1;
             }
         }
+        e2 += 1;
     }
     out
+}
+
+/// Extends a placement over the remaining primes (each sits on one of n, n-1, n-2 or on none)
+/// and examines every n <= limit the size bound allows.  Once the modulus exceeds the limit
+/// the placement fixes n, so that single n is examined and the branch ends.
+fn descend(
+    place: &Placement,
+    rest: &[u64],
+    primes: &[u64],
+    limit: u64,
+    tally: &mut Tally,
+    scratch: &mut [Vec<(u64, u64)>; 3],
+) {
+    if place.modulus > limit as u128 {
+        if place.residue >= 9 && place.residue <= limit as u128 {
+            examine(place.residue as u64, primes, tally, scratch);
+        }
+        return;
+    }
+    let Some((&p, later)) = rest.split_first() else {
+        let top = (SIZE_BOUND * place.parts[0].powi(3) * place.parts[1] * place.parts[2]).sqrt()
+            * (1.0 + 1e-9)
+            + 4.0;
+        let top = if top >= limit as f64 { limit as u128 } else { top as u128 };
+        let mut n = place.residue;
+        while n <= top {
+            if n >= 9 {
+                examine(n as u64, primes, tally, scratch);
+            }
+            n += place.modulus;
+        }
+        return;
+    };
+    descend(place, later, primes, limit, tally, scratch);
+    let mut q = p as u128;
+    while q <= 2 * limit as u128 {
+        for at in 0..3usize {
+            let mut parts = place.parts;
+            parts[at] *= q as f64;
+            let residue = combine(place.residue, place.modulus, at as u128, q);
+            let next = Placement { residue, modulus: place.modulus * q, parts };
+            descend(&next, later, primes, limit, tally, scratch);
+        }
+        q *= p as u128;
+    }
 }
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     if args.len() < 3 {
-        eprintln!("usage: ep699_i3 necessary <limit> | scan <limit> <threads>");
+        eprintln!("usage: ep699_i3 <necessary|scan> <limit> [threads] [primes, default 2,3]");
         std::process::exit(2);
     }
     let limit: u64 = args[2].parse().expect("limit");
     assert!(limit <= 4_000_000_000_000_000_000, "limit must leave headroom in u64");
     let threads: usize = args.get(3).map(|t| t.parse().expect("threads")).unwrap_or(1);
-    let work = progressions(limit);
+    let primes: Vec<u64> = args
+        .get(4)
+        .map(|list| list.split(',').map(|p| p.parse().expect("prime")).collect())
+        .unwrap_or_else(|| vec![2, 3]);
+    assert!(
+        primes.starts_with(&[2, 3]) && primes.windows(2).all(|w| w[0] < w[1]),
+        "primes must start 2,3 and increase"
+    );
+    assert!(primes.iter().all(|&p| is_prime(p)), "smooth set must consist of primes");
+    let work = base_placements(limit);
     let next = AtomicUsize::new(0);
     let total = Mutex::new(Tally::default());
     std::thread::scope(|scope| {
@@ -387,14 +435,8 @@ fn main() {
                 let mut scratch = [Vec::new(), Vec::new(), Vec::new()];
                 loop {
                     let k = next.fetch_add(1, Ordering::Relaxed);
-                    let Some(prog) = work.get(k) else { break };
-                    let mut n = prog.residue;
-                    while n <= prog.top as u128 {
-                        if n >= 9 {
-                            examine(n as u64, &mut tally, &mut scratch);
-                        }
-                        n += prog.modulus;
-                    }
+                    let Some(place) = work.get(k) else { break };
+                    descend(place, &primes[2..], &primes, limit, &mut tally, &mut scratch);
                 }
                 let mut all = total.lock().unwrap();
                 all.tested += tally.tested;
@@ -406,12 +448,10 @@ fn main() {
         }
     });
     let mut all = total.into_inner().unwrap();
-    all.necessary.sort_unstable();
-    all.necessary.dedup();
-    all.survive_large_primes.sort_unstable();
-    all.survive_large_primes.dedup();
-    all.counterexamples.sort_unstable();
-    all.counterexamples.dedup();
+    for list in [&mut all.necessary, &mut all.survive_large_primes, &mut all.counterexamples] {
+        list.sort_unstable();
+        list.dedup();
+    }
     if args[1] == "necessary" {
         for (n, t) in &all.necessary {
             println!("{n} {t}");
@@ -419,7 +459,7 @@ fn main() {
         return;
     }
     println!(
-        "{{\"limit\":{limit},\"progressions\":{},\"tested\":{},\"passed_size_bound\":{},\"necessary_pairs\":{},\"survive_primes_ge_5\":{:?},\"counterexamples\":{:?}}}",
+        "{{\"limit\":{limit},\"primes\":{primes:?},\"placements\":{},\"examinations\":{},\"passed_size_bound\":{},\"necessary_pairs\":{},\"survive_primes_outside_set\":{:?},\"i3_counterexamples\":{:?}}}",
         work.len(),
         all.tested,
         all.passed_size_bound,

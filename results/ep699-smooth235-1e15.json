@@ -1,0 +1,1 @@
+{"limit":1000000000000000,"primes":[2, 3, 5],"placements":14208,"examinations":53042038,"passed_size_bound":53035486,"necessary_pairs":6472,"survive_primes_outside_set":[(10, 4), (16, 7), (27, 13), (1026, 247), (4376, 547)],"i3_counterexamples":[]}
