@@ -9,6 +9,11 @@
 - If the process died: rerun the same command. It reads the JSONL and skips finished blocks.
 - Local git only. No remote, nothing pushed, nothing posted.
 
+- Also running, single thread each: `python search/ep699/spot_check.py weak 10000000 40000000000 40 300 699`
+  (independent Python re-check of 40 random windows of 300 inside the swept range; its strict-mode
+  control already reproduced the 8 known failures below 3000) and the R-only #273 search writing
+  `results/ep273-r-only.txt`. Record both outcomes in the notes when they finish.
+
 ## Check progress
 
 ```
