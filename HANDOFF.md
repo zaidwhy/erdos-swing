@@ -35,8 +35,9 @@ integers: `python -c "from math import comb,gcd;print(gcd(comb(n,i),comb(n,j)))"
    exact check like the one described there.
 2. **#273.** `notes/EP273.md` has the reduction to three coupled coverings. Next experiment: search the
    coupled problem directly (shared odd q, three disjoint sets of r) at lcm above 2e6 in w-terms.
-3. Lean: not installed (disk). Statement worth formalising first: the reduction lemma in
-   `notes/EP699-I3.md` (a | j, b | t(s-t), c | t(s-t)(s-2t)); it needs Kummer's theorem, which Mathlib has.
+3. Lean: not installed (disk). `lean/Erdos699Reduction.lean` holds the statement and proof route with
+   `sorry` in every proof. It has NEVER been compiled; treat every Mathlib name in it as unconfirmed.
+   When about 7 GB is free: install elan, add Mathlib, compile, then fill the four proofs.
 
 ## Peer note
 
