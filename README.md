@@ -42,6 +42,9 @@ Controls, all run:
   (1594324,3,797162). This includes the triple (28,5,14) that Erdős and Szekeres recorded.
 - Two enumeration routines that share no code (digit descent on one prime, CRT on several) give the
   same output on [2, 1e7) strict and [2, 1e8) as stated.
+- `spot_check.py`, a Python checker sharing no code with the Rust scan, prints the eight strict
+  failures below 3000 and finds nothing as stated in 40 random windows of 300 inside [1e7, 4e10)
+  (11,489 composite n, seed 699).
 
 The case i = 3 has a second, independent program (`search/ep699_i3`): a counterexample forces the
 6-smooth part s of n to satisfy b * c <= 0.0963 s^3, which leaves so few n that 1e18 takes 28 minutes.
