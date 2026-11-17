@@ -14,7 +14,7 @@ and nothing is called a result until a second, independently written path agrees
 |---|---|---|
 | all 628 not-yet-settled problems | read every statement and the discussion threads of the candidates | see `notes/TRIAGE.md`; the cheap searches have been run by others |
 | [#699](https://www.erdosproblems.com/699) | exact search for a counterexample, all n below 1e11 | none found in the part completed so far; see `HANDOFF.md` for the live count |
-| #699, small i | structured enumeration of every n that can fail; two independent programs | no counterexample with j < n/2 for i <= 4 (n <= 1e18), i <= 6 (n <= 1e15), i <= 10 (n <= 1e12); `notes/EP699-I3.md` |
+| #699, small i | structured enumeration of every n that can fail; two independent programs | no counterexample with j < n/2 for i <= 4 (n <= 1e18), i <= 6 (n <= 1e17), i <= 10 (n <= 1e15); `notes/EP699-I3.md` |
 | [#273](https://www.erdosproblems.com/273) | 14 moduli p - 1 that cover every even integer, checked exactly | half a covering; the odd half is the open part |
 | #273 | reduction to three coupled coverings, exact search on the pieces | one piece is easy (9 moduli), the pieces together stay open; `notes/EP273.md` |
 

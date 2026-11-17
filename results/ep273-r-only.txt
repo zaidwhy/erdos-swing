@@ -1,0 +1,2 @@
+L=15120 pool=r size=33 sum=1.326 nodes=15000283 -> gave up
+L=30240 pool=r size=39 sum=1.339 nodes=15000387 -> gave up

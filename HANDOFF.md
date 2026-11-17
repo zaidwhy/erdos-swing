@@ -32,12 +32,9 @@ integers: `python -c "from math import comb,gcd;print(gcd(comb(n,i),comb(n,j)))"
 
 ## Next steps, in order of value
 
-1. **#699 structured search: done** for i <= 4 to 1e18, i <= 6 to 1e15, i <= 10 to 1e12, confirmed by a
-   second program written from the spec (`search/ep699_verify`). Still running when this was written:
-   `ep699_i3 scan 1e15 4 2,3,5,7` then `scan 1e17 4 2,3,5`, writing `results/ep699-smooth2357-1e15.json`
-   and `results/ep699-smooth235-1e17.json`. An empty file means that run has not finished. When they
-   land, add the rows to the table in `notes/EP699-I3.md`; any survivor with n above 1e11 would need an
-   exact check like the one described there.
+1. **#699 structured search: done** for i <= 4 to 1e18, i <= 6 to 1e17, i <= 10 to 1e15. The second
+   program (`search/ep699_verify`) confirms 1e18, 1e15 and 1e12 respectively; the 1e17 and 1e15 extensions
+   are single-program runs with unchanged survivor lists (5 and 64 pairs, all n <= 4376).
 2. **#273.** `notes/EP273.md` has the reduction to three coupled coverings. Next experiment: search the
    coupled problem directly (shared odd q, three disjoint sets of r) at lcm above 2e6 in w-terms.
 3. Lean: not installed (disk). `lean/Erdos699Reduction.lean` holds the statement and proof route with
