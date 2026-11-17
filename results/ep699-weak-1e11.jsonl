@@ -410,3 +410,10 @@
 {"lo":40900000002,"hi":41000000002,"mode":"weak","n_with_gap":87943005,"pairs":87943074,"candidates":17092573,"found":[]}
 {"lo":41200000002,"hi":41300000002,"mode":"weak","n_with_gap":87945487,"pairs":87945574,"candidates":17089036,"found":[]}
 {"lo":41300000002,"hi":41400000002,"mode":"weak","n_with_gap":87948946,"pairs":87949010,"candidates":17088485,"found":[]}
+{"lo":41000000002,"hi":41100000002,"mode":"weak","n_with_gap":87952508,"pairs":87952547,"candidates":17091739,"found":[]}
+{"lo":41400000002,"hi":41500000002,"mode":"weak","n_with_gap":87948551,"pairs":87948620,"candidates":17088267,"found":[]}
+{"lo":41500000002,"hi":41600000002,"mode":"weak","n_with_gap":87945862,"pairs":87945916,"candidates":17091281,"found":[]}
+{"lo":41100000002,"hi":41200000002,"mode":"weak","n_with_gap":87948861,"pairs":87948914,"candidates":17086788,"found":[]}
+{"lo":41600000002,"hi":41700000002,"mode":"weak","n_with_gap":87958100,"pairs":87958171,"candidates":17091303,"found":[]}
+{"lo":41700000002,"hi":41800000002,"mode":"weak","n_with_gap":87948481,"pairs":87948554,"candidates":17092743,"found":[]}
+{"lo":41800000002,"hi":41900000002,"mode":"weak","n_with_gap":87955599,"pairs":87955657,"candidates":17092123,"found":[]}
