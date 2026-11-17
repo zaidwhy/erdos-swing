@@ -1,0 +1,5 @@
+# third-party mirrors: site pages and upstream repos are fetched, never redistributed
+upstream/
+target/
+.lake/
+*.jsonl.tmp
