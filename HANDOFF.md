@@ -3,10 +3,9 @@
 ## State
 
 - No Erdős problem resolved. README.md has the honest summary; notes/TRIAGE.md has the screening.
-- **#699 scan is running in the background** (8 threads, started about 00:50):
-  `search/ep699/target/release/ep699.exe weak scan 2 100000000000 8 results/ep699-weak-1e11.jsonl`
-  At 02:38 it had 278 of 1000 blocks, zero counterexamples. About 2 blocks a minute while the
-  i = 3 run shared the CPU; expect 3 to 6 more hours.
+- **#699 scan is running in the background** (restarted on 4 threads to leave CPU for other sessions):
+  `search/ep699/target/release/ep699.exe weak scan 2 100000000000 4 results/ep699-weak-1e11.jsonl`
+  At the restart it had 412 of 1000 blocks, zero counterexamples. Expect many hours at 4 threads.
 - If the process died: rerun the same command. It reads the JSONL and skips finished blocks.
 - Local git only. No remote, nothing pushed, nothing posted.
 
