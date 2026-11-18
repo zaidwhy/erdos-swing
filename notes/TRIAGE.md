@@ -28,7 +28,9 @@ large" proofs): 19, 475, 551, 556, 580, 742, 848.
 
 ## What was still worth running
 
-- **699**: nobody had used the prime-gap and CRT pruning, so the range could move from 1e7 to 1e11.
+- **699**: I believed nobody had used the prime-gap and CRT pruning, so the range could move from 1e7
+  to 1e11. Wrong: a later check (README, "Prior work on 699") found a public sweep to 1e12 from October
+  2026 that the screening missed.
   Heuristically a counterexample is not expected: for i = 3 the expected number of solutions j for a
   given n is about n * 6^w / rad(n(n-1)(n-2)), which abc-type bounds put near 1/n.
 - **273**: the parity split and the "effective modulus" trick (a modulus m acts on a class mod D as
