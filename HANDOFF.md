@@ -7,7 +7,10 @@
   has 1000 contiguous blocks from 2 to 100,000,000,000, mode weak, every `found` list empty,
   87,870,299,149 (n, i) pairs tested. Command, for a rerun (it skips finished blocks):
   `search/ep699/target/release/ep699.exe weak scan 2 100000000000 4 results/ep699-weak-1e11.jsonl`
-- Pushed to github.com/zaidwhy/erdos-swing (private, branch main). Nothing posted on the Erdős site.
+- Pushed to github.com/zaidwhy/erdos-swing (public since 2026-11-18, branch main).
+- Nothing posted on the Erdős site. Zaid approved one comment on the #699 thread, but the thread page
+  (read 2026-11-18) says "The ability to post new comments has been suspended." Its newest comment is
+  from 25 Jul 2026 and it does not mention the 1e12 sweep or any bound for i = 4, 5, 6, 8.
 - Prior work found on 2026-11-18 (README, "Prior work on 699"): the 1e11 sweep is superseded by a
   public 1e12 sweep; only the i = 4, 5, 6, 8 ranges may be new.
 

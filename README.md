@@ -80,7 +80,8 @@ the usable moduli dividing an lcm of 8.5e21 sum to only 1.419, so the odd half w
 ## Prior work on 699
 
 Checked on 2026-11-18, after the searches, from the authors' own repositories (the problem site itself
-refused automated fetches, so its forum was not re-read):
+refused automated fetches; the #699 thread was read in a browser the same day, its newest comment is
+from 25 Jul 2026 and the only computational bound in it is Cong Lu's 1e7):
 
 | Who | Claim | Source |
 |---|---|---|
