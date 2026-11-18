@@ -7,7 +7,9 @@
   has 1000 contiguous blocks from 2 to 100,000,000,000, mode weak, every `found` list empty,
   87,870,299,149 (n, i) pairs tested. Command, for a rerun (it skips finished blocks):
   `search/ep699/target/release/ep699.exe weak scan 2 100000000000 4 results/ep699-weak-1e11.jsonl`
-- Local git only. No remote, nothing pushed, nothing posted.
+- Pushed to github.com/zaidwhy/erdos-swing (private, branch main). Nothing posted on the Erdős site.
+- Prior work found on 2026-11-18 (README, "Prior work on 699"): the 1e11 sweep is superseded by a
+  public 1e12 sweep; only the i = 4, 5, 6, 8 ranges may be new.
 
 - Finished: `python search/ep699/spot_check.py weak 10000000 40000000000 40 300 699` checked 11,489
   composite n in 40 random windows and found nothing (128 minutes). The R-only #273 search also finished:
@@ -34,10 +36,10 @@ The site requires an AI-use disclosure on comments.
    are single-program runs with unchanged survivor lists (5 and 64 pairs, all n <= 4376).
 2. **#273.** `notes/EP273.md` has the reduction to three coupled coverings. Next experiment: search the
    coupled problem directly (shared odd q, three disjoint sets of r) at lcm above 2e6 in w-terms.
-3. Lean: not installed (disk). `lean/Erdos699Reduction.lean` holds the statement and proof route with
-   `sorry` in every proof. It has NEVER been compiled; treat every Mathlib name in it as unconfirmed.
-   Informal proofs of every lemma, written to be formalised step by step: `notes/EP699-PROOFS.md`.
-   When about 7 GB is free: install elan, add Mathlib, compile, then fill the proofs.
+3. Lean: `lean/Erdos699Reduction.lean` proves `Erdos699.reduction` (no `sorry`). It is compiled by the
+   `lean` GitHub Actions workflow (Mathlib v4.36.0, manifest committed), not locally; Lean is still not
+   installed on this machine. Check a change with `gh run list --workflow lean` after pushing.
+   Possible next step: generalise from {2,3} to a smooth set P (notes/EP699-I3.md).
 
 ## Peer note
 

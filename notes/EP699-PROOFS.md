@@ -1,7 +1,8 @@
 # Problem 699 reduction: informal proofs for the Lean file
 
-These are the proofs behind `lean/Erdos699Reduction.lean`. Nothing here has been machine-checked; the
-Lean file has never been compiled. They are written so that each step is one Mathlib-sized fact.
+These are the proofs behind `lean/Erdos699Reduction.lean`. The Lean file now compiles in CI (Mathlib
+v4.36.0) and proves the combined statement; the text below is the informal version and its Lemma 0 is
+replaced in Lean by Kummer's carry count (`Nat.Prime.emultiplicity_choose`). They are written so that each step is one Mathlib-sized fact.
 
 Notation. p is a prime, p >= 5. For m >= 1, smooth(m) = 2^(v_2 m) 3^(v_3 m) and free(m) = m / smooth(m),
 so free(m) is the product of p^(v_p m) over primes p >= 5. Fix n and j with 3 < j and 2j < n (so n >= 9),

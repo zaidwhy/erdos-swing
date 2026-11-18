@@ -10,6 +10,7 @@ jobs:
     defaults:
       run:
         working-directory: lean
+        shell: bash
     steps:
       - uses: actions/checkout@v4
       - name: Install elan
@@ -22,7 +23,6 @@ jobs:
           key: lake-${{ hashFiles('lean/lakefile.toml', 'lean/lean-toolchain') }}
       - name: Fetch Mathlib and its build cache
         run: |
-          lake update
           lake exe cache get
       - name: Build
         run: lake build 2>&1 | tee build.log

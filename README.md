@@ -107,7 +107,10 @@ What that leaves of the work here:
   problem to i = 3 plus a finite set, which is why i = 3 got its own search.
 - The structured results exclude j = n/2. That case rests on the n = 2j proof the site lists as accepted.
 - The #273 half-covering does not show a full covering exists or does not exist.
-- No Lean formalisation was written. There was no new theorem to formalise.
+- The Lean file proves the reduction lemma for the smooth set {2,3} only (theorem `Erdos699.reduction`
+  in `lean/Erdos699Reduction.lean`: the divisibility conditions and the size bound, no `sorry`, standard
+  axioms). It is compiled by GitHub Actions against Mathlib v4.36.0, not locally. It does not formalise
+  the search, the larger smooth sets, or anything about problem 699 itself.
 
 ## Layout
 
