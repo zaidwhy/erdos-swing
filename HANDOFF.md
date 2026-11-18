@@ -3,10 +3,10 @@
 ## State
 
 - No Erdős problem resolved. README.md has the honest summary; notes/TRIAGE.md has the screening.
-- **#699 scan is running in the background** (restarted on 4 threads to leave CPU for other sessions):
+- **#699 all-i scan is finished**: no counterexample for 2 <= n < 1e11. `results/ep699-weak-1e11.jsonl`
+  has 1000 contiguous blocks from 2 to 100,000,000,000, mode weak, every `found` list empty,
+  87,870,299,149 (n, i) pairs tested. Command, for a rerun (it skips finished blocks):
   `search/ep699/target/release/ep699.exe weak scan 2 100000000000 4 results/ep699-weak-1e11.jsonl`
-  At the restart it had 412 of 1000 blocks, zero counterexamples. Expect many hours at 4 threads.
-- If the process died: rerun the same command. It reads the JSONL and skips finished blocks.
 - Local git only. No remote, nothing pushed, nothing posted.
 
 - Finished: `python search/ep699/spot_check.py weak 10000000 40000000000 40 300 699` checked 11,489
@@ -23,12 +23,10 @@ python -c "import json;R=[json.loads(l) for l in open('results/ep699-weak-1e11.j
 A non-empty `found` list is a claimed counterexample (n, i, j). Before believing it, confirm with exact
 integers: `python -c "from math import comb,gcd;print(gcd(comb(n,i),comb(n,j)))"` and factor the gcd.
 
-## When the scan finishes
+## Open decision
 
-1. Confirm 1000 blocks, every `lo` equal to 2 + k * 1e8, `found` empty everywhere.
-2. Put the final sentence in README.md: "no counterexample for n < 1e11".
-3. Zaid decides whether to post it on the #699 forum thread. He writes that comment himself.
-   The site requires an AI-use disclosure on comments.
+Zaid decides whether to post the #699 results on the forum thread. He writes that comment himself.
+The site requires an AI-use disclosure on comments.
 
 ## Next steps, in order of value
 
