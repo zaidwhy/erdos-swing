@@ -10,9 +10,8 @@
 - Local git only. No remote, nothing pushed, nothing posted.
 
 - Finished: `python search/ep699/spot_check.py weak 10000000 40000000000 40 300 699` checked 11,489
-  composite n in 40 random windows and found nothing (128 minutes). Still running, single thread: the
-  R-only #273 search writing `results/ep273-r-only.txt` (lcm 15,120 and 30,240 gave up; 60,480 and
-  151,200 pending).
+  composite n in 40 random windows and found nothing (128 minutes). The R-only #273 search also finished:
+  gave up (15,000,000 nodes) at all four lcms, see `results/ep273-r-only.txt`. No background jobs remain.
 
 ## Check progress
 
