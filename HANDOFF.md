@@ -11,6 +11,8 @@
 - Nothing posted on the Erdős site. Zaid approved one comment on the #699 thread, but the thread page
   (read 2026-11-18) says "The ability to post new comments has been suspended." Its newest comment is
   from 25 Jul 2026 and it does not mention the 1e12 sweep or any bound for i = 4, 5, 6, 8.
+  Decision (Zaid, 2026-11-18): wait until the thread reopens. The earlier one-time approval to post
+  does not carry over; ask him again then, and re-read the thread first.
 - Prior work found on 2026-11-18 (README, "Prior work on 699"): the 1e11 sweep is superseded by a
   public 1e12 sweep; only the i = 4, 5, 6, 8 ranges may be new.
 
