@@ -1,5 +1,7 @@
 # erdos-swing
 
+<img src=".github/hero.webp" alt="An empty wooden swing hanging from an oak in a misty field at dawn, a small slate of erased chalk at the trunk." width="100%">
+
 An attempt on the open Erdős problems that a finite computation could settle.
 
 **Thesis.** A problem is only worth a search if (a) one example or counterexample would settle it and
